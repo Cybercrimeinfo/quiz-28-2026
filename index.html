@@ -260,7 +260,7 @@
     <header>
         <div class="badge">Week 28 &bull; 2026</div>
         <h1>Cybercrime Quiz</h1>
-        <p>Van een klant van bunq die via het Kifid 5.000 euro terugkreeg en een lek in de kernel van Linux dat vijftien jaar onopgemerkt bleef, tot de Amerikaanse NSA die haar beruchte hackafdeling haar oude naam teruggaf en een Cyberbeveiligingswet die ruim achtduizend organisaties raakt. Hoeveel van het cybernieuws van 4 tot en met 10 juli 2026 heb jij meegekregen?</p>
+        <p>Van een datalek bij Lidl België dat webshopklanten trof en een lek in de kernel van Linux dat vijftien jaar onopgemerkt bleef, tot de Amerikaanse NSA die haar beruchte hackafdeling haar oude naam teruggaf en een Cyberbeveiligingswet die ruim achtduizend organisaties raakt. Hoeveel van het cybernieuws van 4 tot en met 10 juli 2026 heb jij meegekregen?</p>
     </header>
 
     <div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
@@ -282,15 +282,15 @@
 <script>
     const questions = [
         {
-                "q": "Een klant van bunq kreeg via klachteninstituut Kifid geld terug na frauduleuze betalingen met Google Pay. Om welk bedrag ging het?",
+                "q": "Bij welk bedrijf werden via een externe dienstverlener persoonsgegevens van webshopklanten in België gestolen?",
                 "options": [
-                        "5.000 euro",
-                        "500 euro",
-                        "50.000 euro",
-                        "1.500 euro"
+                        "Lidl",
+                        "Colruyt",
+                        "Delhaize",
+                        "Carrefour"
                 ],
                 "correct": 0,
-                "explanation": "Het Kifid oordeelde dat bunq de klant 5.000 euro binnen vier weken moest terugbetalen, omdat de bank niet kon bewijzen dat de betaalpas via de app aan Google Pay was gekoppeld."
+                "explanation": "Bij Lidl België werden naam, telefoonnummer, e-mailadres, geboortedatum en klantnummer van webshopklanten buitgemaakt. Wachtwoorden en betaalgegevens bleven volgens Lidl buiten schot."
         },
         {
                 "q": "De ransomwaregroep Qilin claimde begin juli een nieuw Belgisch slachtoffer. Om wat voor organisatie ging het?",
@@ -403,15 +403,15 @@
                 "explanation": "GigaWiper gebruikt willekeurige, nooit opgeslagen sleutels waardoor herstel onmogelijk is. De versleutelingsfunctie is gelinkt aan Crucio, de wisfunctie lijkt op FlockWiper."
         },
         {
-                "q": "De nieuwe infostealer 'PamStealer' richt zich via een nagemaakte app op een besturingssysteem. Welk systeem?",
+                "q": "Een gecompromitteerd softwarepakket van Injective Labs trof gebruikers van cryptowallets. Wat maakten de aanvallers precies buit?",
                 "options": [
-                        "Windows",
-                        "Android",
-                        "Linux",
-                        "macOS"
+                        "Alleen e-mailadressen",
+                        "Alleen gebruikersnamen",
+                        "Alleen de browsergeschiedenis",
+                        "Privesleutels en seed phrases"
                 ],
                 "correct": 3,
-                "explanation": "PamStealer is geschreven in Rust en verspreidt zich via een nagemaakte versie van de app Maccy op een vervalste domeinnaam. Na circa 40 minuten verschijnt een nepwaarschuwing die volledige schijftoegang vraagt."
+                "explanation": "Het gecompromitteerde pakket stal in versie 1.20.21 privesleutels en seed phrases via een verborgen functie. De schone versie is 1.20.23."
         },
         {
                 "q": "Hoe spoorde de FBI de 19-jarige verdachte van hackersgroep Scattered Spider op, ondanks zijn gebruik van een VPN?",
