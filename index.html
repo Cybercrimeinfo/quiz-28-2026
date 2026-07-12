@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<!-- v1.0 | 12 juli 2026: Quiz WK28 (nieuwsweek 4 t/m 10 juli 2026) -->
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cybercrimeinfo Quiz - Week 28-2026</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Outfit:wght@300;400;600;700&display=swap');
+
+        :root {
+            --bg: #0a0e17;
+            --surface: #111827;
+            --surface-hover: #1a2234;
+            --border: #1e293b;
+            --accent: #f59e0b;
+            --accent-glow: rgba(245, 158, 11, 0.15);
+            --correct: #10b981;
+            --correct-bg: rgba(16, 185, 129, 0.1);
+            --wrong: #ef4444;
+            --wrong-bg: rgba(239, 68, 68, 0.1);
+            --text: #e2e8f0;
+            --text-dim: #94a3b8;
+            --text-muted: #64748b;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        .container { max-width: 800px; margin: 0 auto; padding: 2rem 1.5rem; }
+
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        header .badge {
+            display: inline-block;
+            background: var(--accent-glow);
+            color: var(--accent);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 0.35rem 1rem;
+            border-radius: 100px;
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            margin-bottom: 1rem;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        header h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, #f59e0b, #fbbf24);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        header p { color: var(--text-dim); font-size: 1rem; }
+
+        .progress-bar {
+            width: 100%;
+            height: 4px;
+            background: var(--border);
+            border-radius: 2px;
+            margin-bottom: 2rem;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--accent);
+            border-radius: 2px;
+            transition: width 0.3s ease;
+            width: 0%;
+        }
+
+        .score-display {
+            text-align: right;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--text-dim);
+            margin-bottom: 1.5rem;
+        }
+
+        .question-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .question-number {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--accent);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 0.75rem;
+        }
+
+        .question-text {
+            font-size: 1.05rem;
+            font-weight: 600;
+            margin-bottom: 1.25rem;
+            line-height: 1.5;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+
+        .option {
+            display: flex;
+            align-items: center;
+            gap: 0.85rem;
+            padding: 0.85rem 1.1rem;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            text-align: left;
+            width: 100%;
+            color: var(--text);
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.95rem;
+        }
+
+        .option:hover:not(:disabled) {
+            background: var(--surface-hover);
+            border-color: var(--accent);
+        }
+
+        .option-letter {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            min-width: 22px;
+            text-align: center;
+            padding: 0.2rem 0.4rem;
+            background: var(--border);
+            border-radius: 4px;
+            transition: all 0.15s ease;
+        }
+
+        .option.correct {
+            background: var(--correct-bg);
+            border-color: var(--correct);
+        }
+
+        .option.correct .option-letter {
+            background: var(--correct);
+            color: white;
+        }
+
+        .option.wrong {
+            background: var(--wrong-bg);
+            border-color: var(--wrong);
+        }
+
+        .option.wrong .option-letter {
+            background: var(--wrong);
+            color: white;
+        }
+
+        .option:disabled { cursor: default; }
+
+        .explanation {
+            margin-top: 1rem;
+            padding: 0.9rem 1.1rem;
+            background: rgba(245, 158, 11, 0.08);
+            border-left: 3px solid var(--accent);
+            border-radius: 0 6px 6px 0;
+            font-size: 0.9rem;
+            color: var(--text-dim);
+            line-height: 1.5;
+            display: none;
+        }
+
+        .explanation.visible { display: block; }
+
+        .results {
+            display: none;
+            text-align: center;
+            padding: 3rem 2rem;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            margin-top: 2rem;
+        }
+
+        .results.visible { display: block; }
+
+        .result-score {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 4rem;
+            font-weight: 700;
+            color: var(--accent);
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+
+        .result-label {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .result-desc {
+            color: var(--text-dim);
+            max-width: 420px;
+            margin: 0 auto 2rem;
+        }
+
+        .result-link {
+            display: inline-block;
+            padding: 0.75rem 2rem;
+            background: var(--accent);
+            color: #000;
+            font-weight: 700;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: opacity 0.15s;
+        }
+
+        .result-link:hover { opacity: 0.85; }
+
+        footer {
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+            color: var(--text-muted);
+            font-size: 0.82rem;
+        }
+
+        footer a { color: var(--accent); text-decoration: none; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <header>
+        <div class="badge">Week 28 &bull; 2026</div>
+        <h1>Cybercrime Quiz</h1>
+        <p>Van een klant van bunq die via het Kifid 5.000 euro terugkreeg en een lek in de kernel van Linux dat vijftien jaar onopgemerkt bleef, tot de Amerikaanse NSA die haar beruchte hackafdeling haar oude naam teruggaf en een Cyberbeveiligingswet die ruim achtduizend organisaties raakt. Hoeveel van het cybernieuws van 4 tot en met 10 juli 2026 heb jij meegekregen?</p>
+    </header>
+
+    <div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
+    <div class="score-display">Score: <span id="scoreDisplay">0</span> / 20</div>
+
+    <div id="quizContainer"></div>
+    <div class="results" id="results">
+        <div class="result-score" id="finalScore"></div>
+        <div class="result-label" id="finalLabel"></div>
+        <div class="result-desc" id="finalDesc"></div>
+        <a href="https://www.ccinfo.nl" class="result-link">Meer cybercrime nieuws op ccinfo.nl</a>
+    </div>
+
+    <footer>
+        <p>Cybercrimeinfo Quiz WK28-2026 &bull; <a href="https://www.ccinfo.nl">ccinfo.nl</a> &bull; 12 juli 2026</p>
+    </footer>
+</div>
+
+<script>
+    const questions = [
+        {
+                "q": "Een klant van bunq kreeg via klachteninstituut Kifid geld terug na frauduleuze betalingen met Google Pay. Om welk bedrag ging het?",
+                "options": [
+                        "5.000 euro",
+                        "500 euro",
+                        "50.000 euro",
+                        "1.500 euro"
+                ],
+                "correct": 0,
+                "explanation": "Het Kifid oordeelde dat bunq de klant 5.000 euro binnen vier weken moest terugbetalen, omdat de bank niet kon bewijzen dat de betaalpas via de app aan Google Pay was gekoppeld."
+        },
+        {
+                "q": "De ransomwaregroep Qilin claimde begin juli een nieuw Belgisch slachtoffer. Om wat voor organisatie ging het?",
+                "options": [
+                        "Een ziekenhuis in Antwerpen",
+                        "Een advocatenkantoor",
+                        "Een supermarktketen",
+                        "Een universiteit in Gent"
+                ],
+                "correct": 1,
+                "explanation": "Qilin voegde advocatenkantoor Sintax toe aan zijn portaal op het darkweb en dreigde de database binnen vijf tot zes dagen openbaar te maken."
+        },
+        {
+                "q": "Het kabinet pauzeerde de uitrol van Microsoft 365 bij drie overheidsdiensten. Welke drie?",
+                "options": [
+                        "Politie, Defensie en de NCTV",
+                        "UWV, SVB en DUO",
+                        "Belastingdienst, Douane en Dienst Toeslagen",
+                        "RDW, KvK en Kadaster"
+                ],
+                "correct": 2,
+                "explanation": "Staatssecretaris Eerenberg vroeg om het scenario met eigen servers opnieuw te onderzoeken. Een tussentijdse evaluatie volgt over zes maanden."
+        },
+        {
+                "q": "Hoeveel datalekmeldingen ontving de Autoriteit Persoonsgegevens in heel 2025?",
+                "options": [
+                        "Ongeveer 12.000",
+                        "Bijna 5.000",
+                        "Ruim 100.000",
+                        "Ruim 39.000"
+                ],
+                "correct": 3,
+                "explanation": "De Autoriteit Persoonsgegevens registreerde in 2025 ruim 39.000 datalekmeldingen, tegenover bijna 38.000 in 2024. Datalekken door accountovernames stegen van 600 naar ruim 1.700."
+        },
+        {
+                "q": "Een kritiek lek in Adobe ColdFusion (CVE-2026-48282, score 10.0) werd razendsnel misbruikt. Hoe snel na de bekendmaking?",
+                "options": [
+                        "Na ongeveer twee uur",
+                        "Na ongeveer een week",
+                        "Na ongeveer twee maanden",
+                        "Pas nadat de patch verscheen"
+                ],
+                "correct": 0,
+                "explanation": "Volgens Ryan Dewhurst van KEVIntel werd het lek al twee uur na de bekendmaking misbruikt. Adobe bracht op 30 juni updates uit voor zes lekken met de maximale score 10.0."
+        },
+        {
+                "q": "De Consumentenbond testte de gezichtsherkenning van telefoons met een simpele foto. Welke twee merken bleven consistent veilig?",
+                "options": [
+                        "Motorola en Oppo",
+                        "Apple en Google",
+                        "Samsung en OnePlus",
+                        "Redmi en Xiaomi"
+                ],
+                "correct": 1,
+                "explanation": "69 procent van de sinds juni 2023 geteste telefoons was met een foto te misleiden. Vooral Motorola, Oppo en Redmi faalden, terwijl Apple en Google consistent veilig bleven."
+        },
+        {
+                "q": "Voor het lek 'GhostLock' in de kernel van Linux keerde Google een beloning uit aan Nebula Security. Hoe hoog was die?",
+                "options": [
+                        "5.000 dollar",
+                        "1 miljoen dollar",
+                        "92.337 dollar",
+                        "250.000 dollar"
+                ],
+                "correct": 2,
+                "explanation": "GhostLock (CVE-2026-43499) zat er al vijftien jaar in. Google beloonde de ontdekking met 92.337 dollar via het bugbountyprogramma kernelCTF."
+        },
+        {
+                "q": "Onderzoekers van welke universiteit onthulden privacyrisico's in 85 populaire cryptowallets voor Chrome?",
+                "options": [
+                        "TU Delft",
+                        "Universiteit van Amsterdam",
+                        "Universiteit Gent",
+                        "KU Leuven"
+                ],
+                "correct": 3,
+                "explanation": "De onderzoeksgroep DistriNet van de KU Leuven analyseerde 85 wallets met samen circa 35 miljoen gebruikers. Zeventien konden adressen aan een persoon koppelen."
+        },
+        {
+                "q": "De snelgroeiende ransomwaregroep 'The Gentlemen' claimde in haar eerste jaar hoeveel slachtoffers?",
+                "options": [
+                        "Meer dan 500 in ruim 70 landen",
+                        "Ongeveer 50 in 5 landen",
+                        "Precies 100, alleen in Nederland",
+                        "Meer dan 10.000 wereldwijd"
+                ],
+                "correct": 0,
+                "explanation": "The Gentlemen, door Microsoft gevolgd als Storm-2697, was in april 2026 goed voor circa 10 procent van alle wereldwijde ransomwareactiviteit."
+        },
+        {
+                "q": "Medische fabrikant Medtronic waarschuwde bijna 4 miljoen mensen na een datalek. Aan welke hackersgroep werd de aanval gelinkt?",
+                "options": [
+                        "LockBit",
+                        "ShinyHunters",
+                        "Cl0p",
+                        "Lazarus"
+                ],
+                "correct": 1,
+                "explanation": "De toegang werd op 24 april bevestigd. Buitgemaakt werden onder meer burgerservicenummers. De kennisgeving verscheen op 29 juni."
+        },
+        {
+                "q": "De nieuwe destructieve malware 'GigaWiper' voegt bij versleuteling een opvallende bestandsextensie toe. Welke?",
+                "options": [
+                        ".locked",
+                        ".crypt",
+                        ".candy",
+                        ".gigawipe"
+                ],
+                "correct": 2,
+                "explanation": "GigaWiper gebruikt willekeurige, nooit opgeslagen sleutels waardoor herstel onmogelijk is. De versleutelingsfunctie is gelinkt aan Crucio, de wisfunctie lijkt op FlockWiper."
+        },
+        {
+                "q": "De nieuwe infostealer 'PamStealer' richt zich via een nagemaakte app op een besturingssysteem. Welk systeem?",
+                "options": [
+                        "Windows",
+                        "Android",
+                        "Linux",
+                        "macOS"
+                ],
+                "correct": 3,
+                "explanation": "PamStealer is geschreven in Rust en verspreidt zich via een nagemaakte versie van de app Maccy op een vervalste domeinnaam. Na circa 40 minuten verschijnt een nepwaarschuwing die volledige schijftoegang vraagt."
+        },
+        {
+                "q": "Hoe spoorde de FBI de 19-jarige verdachte van hackersgroep Scattered Spider op, ondanks zijn gebruik van een VPN?",
+                "options": [
+                        "Via een uniek Windows Global Device ID",
+                        "Via een gehackte e-mail",
+                        "Via zijn bankrekening",
+                        "Via een tip van een medeverdachte"
+                ],
+                "correct": 0,
+                "explanation": "Ondanks het gebruik van een VPN werd de verdachte getraceerd via zijn Global Device ID. Bij zijn aanhouding op de luchthaven van Helsinki namen de Finse politie twee harde schijven van 2 terabyte in beslag."
+        },
+        {
+                "q": "De Noorse recherche Kripos coördineerde een internationale actie rond een cryptovaluta die op darkwebforums werd gebruikt. Welke munt kon Kripos traceren?",
+                "options": [
+                        "Bitcoin",
+                        "Monero",
+                        "Ethereum",
+                        "BONK"
+                ],
+                "correct": 1,
+                "explanation": "28 mannen werden in zeven landen gearresteerd. Kripos ontwikkelde in 2025 een methode om het gebruik van Monero in specifieke gevallen te traceren. Er werden meer dan 460 voorwerpen in beslag genomen."
+        },
+        {
+                "q": "In Tokio arresteerde de politie een 15-jarige die met behulp van ChatGPT een aanval bouwde. Op welke dienst was die aanval gericht?",
+                "options": [
+                        "Netflix Japan",
+                        "Sony PlayStation Network",
+                        "Bandai Channel",
+                        "Nintendo eShop"
+                ],
+                "correct": 2,
+                "explanation": "De scholier maakte met ChatGPT een aanvalsprogramma. Op 4 november 2025 werden 46.812 abonnementsaccounts ongeautoriseerd geannuleerd."
+        },
+        {
+                "q": "Russische hackers voerden een DDoS-aanval uit op een landelijke Oekraïense tv-zender. Welke omvang bereikte die aanval?",
+                "options": [
+                        "Tot 500 verzoeken per minuut",
+                        "Tot 1.000 verzoeken per uur",
+                        "Tot 50 verzoeken per seconde",
+                        "Tot 200.000 verzoeken per minuut"
+                ],
+                "correct": 3,
+                "explanation": "De aanval duurde drie uur. De SBU neutraliseerde sinds de invasie meer dan 16.000 cyberaanvallen. De SSSCIP meldde meer dan 200 succesvolle aanvallen op Oekraïense media."
+        },
+        {
+                "q": "De Amerikaanse inlichtingendienst NSA gaf een beruchte hackafdeling haar oude naam terug. Welke naam?",
+                "options": [
+                        "Tailored Access Operations (TAO)",
+                        "Equation Group",
+                        "Shadow Brokers",
+                        "Cyber Command"
+                ],
+                "correct": 0,
+                "explanation": "De NSA hernoemde haar Office of Computer Network Operations terug naar Tailored Access Operations. TAO hielp eerder mee aan het ontwerp van het cyberwapen Stuxnet."
+        },
+        {
+                "q": "De Eerste Kamer stemde op 7 juli in met een nieuwe wet die ruim achtduizend Nederlandse organisaties raakt. Welke wet?",
+                "options": [
+                        "De Wet digitale overheid",
+                        "De Cyberbeveiligingswet (Cbw)",
+                        "De verordening kunstmatige intelligentie",
+                        "De Wet bescherming persoonsgegevens"
+                ],
+                "correct": 1,
+                "explanation": "De Cyberbeveiligingswet treedt op 15 augustus in werking. Tegelijk daagde de Europese Commissie Nederland voor het Europees Hof van Justitie wegens te late omzetting van de NIS2-richtlijn."
+        },
+        {
+                "q": "De Belgische identiteitsapp Itsme voert vanaf begin volgend jaar een nieuwe beveiligingsmaatregel verplicht in. Welke?",
+                "options": [
+                        "Een pincode van acht cijfers",
+                        "Een fysieke bankkaartlezer",
+                        "Verplichte gezichtsherkenning",
+                        "Een maandelijkse wachtwoordwissel"
+                ],
+                "correct": 2,
+                "explanation": "Itsme stelt gezichtsherkenning verplicht vanaf het eerste kwartaal van volgend jaar. De app wordt door meer dan 80 procent van de volwassen Belgen gebruikt."
+        },
+        {
+                "q": "De Nederlandse Rijksoverheid scherpte begin juli haar cloudbeleid aan. Wat is het advies aan kritieke organisaties?",
+                "options": [
+                        "Alle data alleen nog op papier bewaren",
+                        "Uitsluitend Amerikaanse clouddiensten gebruiken",
+                        "Alle clouddiensten per direct opzeggen",
+                        "Geen clouddiensten van buiten de EU of EER afnemen"
+                ],
+                "correct": 3,
+                "explanation": "Het herziene cloudbeleid geldt voor alle overheidsorganisaties behalve Defensie en de Hoge Colleges van Staat, met een overgangstermijn van vier jaar."
+        }
+];
+
+    let score = 0;
+    let answered = 0;
+
+    function render() {
+        const container = document.getElementById('quizContainer');
+        container.innerHTML = questions.map((q, i) => `
+            <div class="question-card" id="card-${i}">
+                <div class="question-number">Vraag ${i + 1} van ${questions.length}</div>
+                <div class="question-text">${q.q}</div>
+                <div class="options">
+                    ${q.options.map((opt, j) => `
+                        <button class="option" id="opt-${i}-${j}" onclick="answer(${i}, ${j})">
+                            <span class="option-letter">${['A','B','C','D'][j]}</span>
+                            <span>${opt}</span>
+                        </button>
+                    `).join('')}
+                </div>
+                <div class="explanation" id="exp-${i}">${q.explanation}</div>
+            </div>
+        `).join('');
+    }
+
+    function answer(qi, chosen) {
+        const q = questions[qi];
+        const buttons = document.querySelectorAll(`#card-${qi} .option`);
+        buttons.forEach(btn => btn.disabled = true);
+
+        if (chosen === q.correct) {
+            buttons[chosen].classList.add('correct');
+            score++;
+            document.getElementById('scoreDisplay').textContent = score;
+        } else {
+            buttons[chosen].classList.add('wrong');
+            buttons[q.correct].classList.add('correct');
+        }
+
+        document.getElementById(`exp-${qi}`).classList.add('visible');
+        answered++;
+
+        const pct = (answered / questions.length) * 100;
+        document.getElementById('progress').style.width = pct + '%';
+
+        if (answered === questions.length) {
+            setTimeout(showResults, 800);
+        }
+    }
+
+    function showResults() {
+        document.getElementById('results').classList.add('visible');
+        document.getElementById('finalScore').textContent = score + '/20';
+        let label, desc;
+        if (score >= 18) { label = 'Uitstekend!'; desc = 'Je hebt het cybernieuws van week 28 op de voet gevolgd. Indrukwekkend!'; }
+        else if (score >= 14) { label = 'Goed gedaan!'; desc = 'Sterke prestatie. Je bent goed op de hoogte van de cybersecurity ontwikkelingen.'; }
+        else if (score >= 10) { label = 'Niet slecht!'; desc = 'Redelijke score. Volg ccinfo.nl dagelijks voor meer diepgang.'; }
+        else { label = 'Blijf oefenen!'; desc = 'De wereld van cybercrime verandert snel. Lees dagelijks mee op ccinfo.nl.'; }
+        document.getElementById('finalLabel').textContent = label;
+        document.getElementById('finalDesc').textContent = desc;
+        document.getElementById('results').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    render();
+</script>
+</body>
+</html>
